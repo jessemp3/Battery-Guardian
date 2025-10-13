@@ -113,16 +113,14 @@ public class BatteryService extends Service {
     }
 
     private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Monitoramento de Bateria",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            channel.setDescription("Notificações do serviço de monitoramento de bateria");
-            channel.enableVibration(true); // vibração
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
+        NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                "Monitoramento de Bateria",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        channel.setDescription("Notificações do serviço de monitoramento de bateria");
+        channel.enableVibration(true); // vibração
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(channel);
     }
 }

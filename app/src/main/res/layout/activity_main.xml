@@ -64,10 +64,10 @@
             android:text="A Saude da Bateria Está :" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imageViewBatteryHealth"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:srcCompat="@drawable/ic_battery"
+            app:srcCompat="@drawable/ic_good_battery"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="16dp"
             />

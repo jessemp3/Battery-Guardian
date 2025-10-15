@@ -10,70 +10,69 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
+        style="?attr/toolbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/primaryBlue"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="85dp"
+        android:background="?attr/colorPrimaryContainer"
+        app:title="@string/battery_guardian"
+        app:titleTextColor="?attr/colorOnPrimaryContainer"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/battery_guardian"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/materialToolbar"
-        app:layout_constraintStart_toStartOf="@id/materialToolbar"
-        app:layout_constraintTop_toTopOf="@id/materialToolbar"
-        app:layout_constraintVertical_bias="0.468" />
-
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:layout_margin="16dp"
-        app:cardBackgroundColor="#8E959B"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="1dp"
-        app:layout_constraintEnd_toStartOf="parent"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/materialToolbar">
+        app:layout_constraintTop_toBottomOf="@id/materialToolbar"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            app:srcCompat="@android:drawable/ic_dialog_info" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/batteryPercentage"
-            android:layout_width="195dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical"
-            android:textSize="16sp"
-            android:text="A Saude da Bateria Está :" />
+            <ImageView
+                android:id="@+id/imageViewInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/batteryPercentage"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_dialog_info"
+                app:tint="@color/black" />
 
-        <ImageView
-            android:id="@+id/imageViewBatteryHealth"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@drawable/ic_good_battery"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="16dp"
-            />
+            <TextView
+                android:id="@+id/batteryPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A Saude da Bateria Está :"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imageViewBatteryHealth"
+                app:layout_constraintStart_toEndOf="@id/imageViewInfo"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/imageViewBatteryHealth"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="Battery icon indicating health status"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/batteryPercentage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_good_battery" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

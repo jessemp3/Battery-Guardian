@@ -14,6 +14,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.jesse.batteria.databinding.ActivityMainBinding;
 import com.jesse.batteria.service.BatteryService;
@@ -31,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
+
+     ViewCompat.setOnApplyWindowInsetsListener(binding.materialToolbar, (view, insets) -> {
+         int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+         view.setPadding(0, statusBarHeight, 0, 0);
+         return insets;
+     });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)

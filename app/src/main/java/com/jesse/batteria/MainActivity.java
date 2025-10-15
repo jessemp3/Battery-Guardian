@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
         BatteryViewModel viewModel = new ViewModelProvider(this).get(BatteryViewModel.class);
 
 
-     ViewCompat.setOnApplyWindowInsetsListener(binding.materialToolbar, (view, insets) -> {
-         int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
-         view.setPadding(0, statusBarHeight, 0, 0);
-         return insets;
-     });
+        ViewCompat.setOnApplyWindowInsetsListener(binding.materialToolbar, (view, insets) -> {
+            int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+            view.setPadding(0, statusBarHeight, 0, 0);
+            return insets;
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -56,16 +56,13 @@ public class MainActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, BatteryService.class);
         ContextCompat.startForegroundService(this, serviceIntent);
 
-        viewModel.getBatteryIntent().observe(this, intent -> {
-            batteryVerification(intent);
-        });
+        viewModel.getBatteryIntent().observe(this, this::batteryVerification);
 
         Intent batteryStatus = Objects.requireNonNull(registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED)));
         viewModel.updateBatteryIntent(batteryStatus);
     }
 
-    // Dentro da MainActivity
-    private BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             BatteryViewModel viewModel = new ViewModelProvider(MainActivity.this).get(BatteryViewModel.class);
@@ -86,14 +83,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void batteryVerification(Intent intent){
+    private void batteryVerification(Intent intent) {
         int level = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN);
         Log.d("BatteryService", String.valueOf(level));
         ImageView bateria = binding.imageViewBatteryHealth;
         TextView bateriaText = binding.textViewbatteryHealthStatus;
 
 
-        switch (level){
+        switch (level) {
             case BatteryManager.BATTERY_HEALTH_GOOD:
                 bateria.setImageResource(R.drawable.battery_status_good_24px);
                 bateriaText.setText("Boa");
@@ -120,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case BatteryManager.BATTERY_HEALTH_UNKNOWN:
                 bateria.setImageResource(R.drawable.battery_unknown_24px);
+                bateriaText.setText("Desconhecido");
                 break;
         }
 

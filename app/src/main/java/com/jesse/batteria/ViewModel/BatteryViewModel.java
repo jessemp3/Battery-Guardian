@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-// BatteryViewModel.java
 public class BatteryViewModel extends ViewModel {
     private final MutableLiveData<Intent> batteryIntent = new MutableLiveData<>();
 

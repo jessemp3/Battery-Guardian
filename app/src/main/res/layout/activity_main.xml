@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:background="?attr/colorPrimaryContainer"
+        app:layout_constraintTop_toTopOf="parent"
         app:title="@string/battery_guardian"
-        app:titleTextColor="?attr/colorOnPrimaryContainer"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:titleTextColor="?attr/colorOnPrimaryContainer" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"

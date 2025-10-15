@@ -65,11 +65,23 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:contentDescription="Battery icon indicating health status"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/textViewbatteryHealthStatus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/batteryPercentage"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_good_battery" />
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/battery_unknown_24px" />
+
+            <TextView
+                android:id="@+id/textViewbatteryHealthStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Desconhecida"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewBatteryHealth"
+                app:layout_constraintStart_toStartOf="@+id/imageViewBatteryHealth"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewBatteryHealth" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

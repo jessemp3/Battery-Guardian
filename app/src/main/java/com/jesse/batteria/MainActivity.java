@@ -1,6 +1,8 @@
 package com.jesse.batteria;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -9,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +19,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.jesse.batteria.ViewModel.BatteryViewModel;
 import com.jesse.batteria.databinding.ActivityMainBinding;
 import com.jesse.batteria.service.BatteryService;
 
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
+        BatteryViewModel viewModel = new ViewModelProvider(this).get(BatteryViewModel.class);
+
 
      ViewCompat.setOnApplyWindowInsetsListener(binding.materialToolbar, (view, insets) -> {
          int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
@@ -49,26 +56,71 @@ public class MainActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, BatteryService.class);
         ContextCompat.startForegroundService(this, serviceIntent);
 
-        batteryVerification(Objects.requireNonNull(registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED))));
+        viewModel.getBatteryIntent().observe(this, intent -> {
+            batteryVerification(intent);
+        });
+
+        Intent batteryStatus = Objects.requireNonNull(registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED)));
+        viewModel.updateBatteryIntent(batteryStatus);
     }
 
+    // Dentro da MainActivity
+    private BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            BatteryViewModel viewModel = new ViewModelProvider(MainActivity.this).get(BatteryViewModel.class);
+            viewModel.updateBatteryIntent(intent);
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(batteryReceiver);
+    }
+
+
     private void batteryVerification(Intent intent){
-//        BATTERY_HEALTH_GOOD (2): bateria em bom estado.
-//        BATTERY_HEALTH_DEAD (4): bateria está "morta".
-//                BATTERY_HEALTH_OVERHEAT (3): bateria superaquecida.
-//        BATTERY_HEALTH_OVER_VOLTAGE (5): tensão acima do normal.
-//                BATTERY_HEALTH_COLD (7): bateria muito fria.
-//                BATTERY_HEALTH_UNSPECIFIED_FAILURE (6): falha não especificada.
-//                BATTERY_HEALTH_UNKNOWN (1): estado desconhecido.
-
-
         int level = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN);
         Log.d("BatteryService", String.valueOf(level));
         ImageView bateria = binding.imageViewBatteryHealth;
+        TextView bateriaText = binding.textViewbatteryHealthStatus;
 
 
-        if(level == BatteryManager.BATTERY_HEALTH_GOOD){
-            bateria.setImageResource(R.drawable.ic_battery_good);
+        switch (level){
+            case BatteryManager.BATTERY_HEALTH_GOOD:
+                bateria.setImageResource(R.drawable.battery_status_good_24px);
+                bateriaText.setText("Boa");
+                break;
+            case BatteryManager.BATTERY_HEALTH_DEAD:
+                bateria.setImageResource(R.drawable.battery_alert_24px);
+                bateriaText.setText("Morta");
+                break;
+            case BatteryManager.BATTERY_HEALTH_OVERHEAT:
+                bateria.setImageResource(R.drawable.battery_change_24px);
+                bateriaText.setText("Superaquecida");
+                break;
+            case BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE:
+                bateria.setImageResource(R.drawable.battery_alert_24px);
+                bateriaText.setText("Alta tensão");
+                break;
+            case BatteryManager.BATTERY_HEALTH_COLD:
+                bateria.setImageResource(R.drawable.battery_0_bar_24px);
+                bateriaText.setText("Fria");
+                break;
+            case BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE:
+                bateria.setImageResource(R.drawable.battery_unknown_24px);
+                bateriaText.setText("Falha");
+                break;
+            case BatteryManager.BATTERY_HEALTH_UNKNOWN:
+                bateria.setImageResource(R.drawable.battery_unknown_24px);
+                break;
         }
 
     }

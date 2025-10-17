@@ -2,4 +2,13 @@
     <string name="app_name">Battery Guardian</string>
     <string name="label_battery">%1$d%%</string>
     <string name="battery_guardian">Battery Guardian</string>
+
+
+    <string name="battery_health_good">Boa</string>
+    <string name="battery_health_overheat">Aquecimento</string>
+    <string name="battery_health_dead">Morta</string>
+    <string name="battery_health_over_voltage">Tensão alta</string>
+    <string name="battery_health_unspecified_failure">Falha</string>
+    <string name="battery_health_cold">Fria</string>
+    <string name="battery_health_unknown">Desconhecida</string>
 </resources>

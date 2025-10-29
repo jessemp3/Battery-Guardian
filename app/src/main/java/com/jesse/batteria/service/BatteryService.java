@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
@@ -21,12 +22,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+import com.jesse.batteria.R;
 import com.jesse.batteria.ui.MainActivity;
 
 public class BatteryService extends Service {
     private static final String CHANNEL_ID = "monitor_bateria_channel";
     private static final int NOTIF_ID_FOREGROUND = 100;
-    private static int NOTIF_ID_ALERT = 101;
 
     private BroadcastReceiver batteryReceiver;
 
@@ -36,8 +37,10 @@ public class BatteryService extends Service {
         Log.d("BatteryService", "Serviço iniciado");
 
         createNotificationChannel();
-
         startForeground(NOTIF_ID_FOREGROUND, buildForegroundNotification());
+
+        SharedPreferences prefs = getSharedPreferences("battery_prefs" , MODE_PRIVATE);
+        int userLimit = prefs.getInt("battery_limit" , 20);
 
         // Cria e registra o receiver que monitora a bateria
         batteryReceiver = new BroadcastReceiver() {
@@ -52,7 +55,7 @@ public class BatteryService extends Service {
                 Log.d("BatteryService", "Bateria: " + level + "%, carregando: " + isCharging);
 
 
-                if (level <= 20 && !isCharging) {
+                if (level <= userLimit && !isCharging) {
                     enviarNotificacao(context, level);
                 }
             }
@@ -120,7 +123,8 @@ public class BatteryService extends Service {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
                 ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
                         == PackageManager.PERMISSION_GRANTED) {
-            nm.notify(NOTIF_ID_ALERT++, builder.build());
+            int NOTIF_ID_ALERT = 101;
+            nm.notify(NOTIF_ID_ALERT, builder.build());
             /*
             a cada notificação
             o Id é unico , isso permite que mesmo que o usuario apague a notificação

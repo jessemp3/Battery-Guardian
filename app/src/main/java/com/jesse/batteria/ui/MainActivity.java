@@ -5,9 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.SeekBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQ_POST_NOTIF = 101;
+    private static final String PREFS_NAME = "battery_prefs";
+    private static final String KEY_BATTERY_LIMIT = "battery_limit";
     private ActivityMainBinding binding;
 
     @Override
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
         BatteryViewModel viewModel = new ViewModelProvider(this).get(BatteryViewModel.class);
+
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedLimit = prefs.getInt(KEY_BATTERY_LIMIT, 20);
 
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.materialToolbar, (view, insets) -> {
@@ -59,6 +66,25 @@ public class MainActivity extends AppCompatActivity {
             binding.imageViewBatteryHealth.setImageResource(state.iconResId);
             binding.textViewbatteryHealthStatus.setText(getString(state.statusText));
         });
+
+        binding.seekBarLimit.setMin(10);
+        binding.seekBarLimit.setMax(30);
+        binding.seekBarLimit.setProgress(savedLimit);
+
+        binding.textViewLimitValue.setText(savedLimit + "%");
+
+
+        binding.seekBarLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                binding.textViewLimitValue.setText(progress + "%");
+                prefs.edit().putInt(KEY_BATTERY_LIMIT, progress).apply();
+            }
+
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
 
     }
 

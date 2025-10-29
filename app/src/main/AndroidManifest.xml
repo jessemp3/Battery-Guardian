@@ -24,6 +24,12 @@
             android:foregroundServiceType="dataSync"
               />
 
+        <receiver
+            android:name=".service.RestartServiceReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">

@@ -26,7 +26,7 @@ import com.jesse.batteria.ui.MainActivity;
 public class BatteryService extends Service {
     private static final String CHANNEL_ID = "monitor_bateria_channel";
     private static final int NOTIF_ID_FOREGROUND = 100;
-    private static final int NOTIF_ID_ALERT = 101;
+    private static int NOTIF_ID_ALERT = 101;
 
     private BroadcastReceiver batteryReceiver;
 
@@ -57,6 +57,7 @@ public class BatteryService extends Service {
                 }
             }
         };
+
         registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
@@ -67,12 +68,21 @@ public class BatteryService extends Service {
             unregisterReceiver(batteryReceiver);
         }
         Log.d("BatteryService", "Serviço finalizado");
+
+        Intent broadcastIntent = new Intent(this, RestartServiceReceiver.class);
+        sendBroadcast(broadcastIntent);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("BatteryService", "onStartCommand chamado");
+        return START_STICKY;
     }
 
     private Notification buildForegroundNotification() {
@@ -90,23 +100,32 @@ public class BatteryService extends Service {
                 .setSmallIcon(android.R.drawable.ic_lock_idle_charging)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(true)// não pode ser dispensada
+                .setAutoCancel(false)
                 .build();
     }
 
     private void enviarNotificacao(Context context, int level) {
+        String message = "Coloque o celular para carregar";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setContentTitle("Bateria em " + level + "% 🔋")
-                .setContentText("Coloque o celular para carregar")
+                .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
+                .setOngoing(true)// não pode ser dispensada
+                .setAutoCancel(false);
 
         NotificationManagerCompat nm = NotificationManagerCompat.from(context);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
                 ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
                         == PackageManager.PERMISSION_GRANTED) {
-            nm.notify(NOTIF_ID_ALERT, builder.build());
+            nm.notify(NOTIF_ID_ALERT++, builder.build());
+            /*
+            a cada notificação
+            o Id é unico , isso permite que mesmo que o usuario apague a notificação
+            seja possivel enviar outra sem que o android interprete como spam e não mostre novamente
+             */
         }
     }
 

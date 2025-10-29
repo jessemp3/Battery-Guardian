@@ -22,6 +22,7 @@
 ## Contribuição
 
 Sugestões, melhorias e contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
+**(Em breve na Google Play)**
 
 ---
 **Battery Guardian** – seu celular sempre pronto para uso!

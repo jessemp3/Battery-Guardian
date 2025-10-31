@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import androidx.activity.EdgeToEdge;
@@ -45,7 +46,16 @@ public class MainActivity extends AppCompatActivity {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.materialToolbar, (view, insets) -> {
             int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+            int navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
             view.setPadding(0, statusBarHeight, 0, 0);
+
+            //dessa forma consigo verificar que os botoes de navegaçaõe estáo aparecendo
+            //se sim a margin é maior pro valor não ficar escondido
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.linearLayoutControls.getLayoutParams();
+            params.bottomMargin = dpToPx(this, navBarHeight > 0 ? 34 : 16);
+            binding.linearLayoutControls.setLayoutParams(params);;
+
+
             return insets;
         });
 
@@ -95,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
             viewModel.updateBatteryIntent(intent);
         }
     };
+
+
+    private int dpToPx(Context context, int dp) {
+        return Math.round(dp * context.getResources().getDisplayMetrics().density);
+    }
+
 
     @Override
     protected void onStart() {

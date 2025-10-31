@@ -87,6 +87,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
+        android:id="@+id/linearLayoutControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -94,13 +95,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="16dp"
         >
 
         <TextView
-            android:id="@+id/textViewTitle"
-            android:text="Notificar quando a bateria estiver abaixo de:"
-            android:textSize="16sp"
+            android:id="@+id/textViewLimitTitle"
+            android:text="Notificiar quando a bateria estiver em:"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:paddingBottom="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

@@ -53,11 +53,13 @@ public class MainActivity extends AppCompatActivity {
             //se sim a margin é maior pro valor não ficar escondido
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.linearLayoutControls.getLayoutParams();
             params.bottomMargin = dpToPx(this, navBarHeight > 0 ? 34 : 16);
-            binding.linearLayoutControls.setLayoutParams(params);;
+            binding.linearLayoutControls.setLayoutParams(params);
+            ;
 
 
             return insets;
         });
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -91,8 +93,13 @@ public class MainActivity extends AppCompatActivity {
                 prefs.edit().putInt(KEY_BATTERY_LIMIT, progress).apply();
             }
 
-            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
 
@@ -110,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     private int dpToPx(Context context, int dp) {
         return Math.round(dp * context.getResources().getDisplayMetrics().density);
     }
+
 
 
     @Override

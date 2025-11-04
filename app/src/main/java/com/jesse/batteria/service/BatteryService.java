@@ -153,6 +153,7 @@ public class BatteryService extends Service {
     }
 
 
+
     private void enviarSmsAlerta() {
 
 

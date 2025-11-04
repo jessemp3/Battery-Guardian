@@ -5,14 +5,15 @@
 ## O que o Battery Guardian faz?
 
 - **Monitoramento automático da bateria:** O app executa em segundo plano, monitorando constantemente o nível da bateria do dispositivo.
-- **Notificação em 20%:** Quando a bateria chega a 20%, o app envia uma notificação avisando para colocar o celular no carregador, evitando que o aparelho desligue completamente e fique difícil de ligar novamente.
-- **Foco na praticidade:** Não há interface visual no momento, o aplicativo roda silenciosamente para garantir que o celular permaneça funcional.
+- **Notificação personalizável:** Configure o limite de bateria (entre 10% e 30%) para receber notificações quando a bateria atingir esse nível, evitando que o aparelho desligue completamente e fique difícil de ligar novamente.
+- **Monitoramento da saúde da bateria:** Visualize o estado de saúde da bateria em tempo real através de ícones intuitivos que indicam se está em bom estado, superaquecida, fria ou com outros problemas.
+- **Interface visual:** O aplicativo agora possui uma interface gráfica simples e funcional que permite ajustar o limite de notificação e visualizar informações sobre a saúde da bateria.
 
 ## Próximas funcionalidades
 
-- **Saúde da bateria:** Informações sobre a saúde e ciclos de carga da bateria.
+- **Ciclos de carga:** Informações sobre ciclos de carga da bateria.
 - **Média de consumo:** Estatísticas sobre o consumo médio de bateria do dispositivo.
-- **Interface visual:** Futuramente, será adicionada uma interface gráfica para facilitar o uso e visualização dos dados.
+- **Histórico de bateria:** Registro do histórico de níveis de bateria ao longo do tempo.
 
 ## Motivação
 
@@ -21,6 +22,7 @@
 ## Contribuição
 
 Sugestões, melhorias e contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
+**(Em breve na Google Play)**
 
 ---
 **Battery Guardian** – seu celular sempre pronto para uso!

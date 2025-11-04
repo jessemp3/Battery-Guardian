@@ -159,7 +159,7 @@ public class BatteryService extends Service {
         String accountSid = sid;
         String authToken = token;
         String fromNumber = "+18028028875"; // número Twilio verificado
-        String toNumber = "+5511911054439"; // número de destino com DDI
+        String toNumber = "+55629961488143"; // número de destino com DDI
         String messageBody = "⚠️ Alerta: Bateria baixa e carregador desconectado!";
 
         TwilioService twilioService = TwilioClient.INSTANCE.createService(accountSid, authToken);

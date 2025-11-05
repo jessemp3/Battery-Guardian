@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.linearLayoutControls.getLayoutParams();
             params.bottomMargin = dpToPx(this, navBarHeight > 0 ? 34 : 16);
             binding.linearLayoutControls.setLayoutParams(params);
-            ;
-
 
             return insets;
         });

@@ -16,23 +16,17 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-import com.jesse.batteria.BuildConfig;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
-import com.jesse.batteria.date.TwilioResponse;
 import com.jesse.batteria.ui.MainActivity;
-
-import java.util.Objects;
 
 public class BatteryService extends Service {
     private static final String CHANNEL_ID = "monitor_bateria_channel";
-    private static final int NOTIF_ID_FOREGROUND = 100;;
-    String sid = BuildConfig.TWILIO_SID;
-    String token = BuildConfig.TWILIO_AUTH;
+    private static final int NOTIF_ID_FOREGROUND = 100;
 
 
     private BroadcastReceiver batteryReceiver;
@@ -45,8 +39,8 @@ public class BatteryService extends Service {
         createNotificationChannel();
         startForeground(NOTIF_ID_FOREGROUND, buildForegroundNotification());
 
-        SharedPreferences prefs = getSharedPreferences("battery_prefs" , MODE_PRIVATE);
-        int userLimit = prefs.getInt("battery_limit" , 20);
+        SharedPreferences prefs = getSharedPreferences("battery_prefs", MODE_PRIVATE);
+        int userLimit = prefs.getInt("battery_limit", 20);
 
         // Cria e registra o receiver que monitora a bateria
         batteryReceiver = new BroadcastReceiver() {
@@ -63,7 +57,6 @@ public class BatteryService extends Service {
 
                 if (level <= userLimit && !isCharging) {
                     enviarNotificacao(context, level);
-                    enviarSmsAlerta();
                 }
             }
         };
@@ -153,39 +146,4 @@ public class BatteryService extends Service {
     }
 
 
-
-    private void enviarSmsAlerta() {
-
-
-        String accountSid = sid;
-        String authToken = token;
-        String fromNumber = "+18028028875"; // número Twilio verificado
-        String toNumber = "+55629961488143"; // número de destino com DDI
-        String messageBody = "⚠️ Alerta: Bateria baixa e carregador desconectado!";
-
-        TwilioService twilioService = TwilioClient.INSTANCE.createService(accountSid, authToken);
-
-
-        // uma thread separada para não travar a main
-        new Thread(() -> {
-            try {
-                retrofit2.Response<TwilioResponse> response = Objects.requireNonNull(twilioService.sendSms(
-                        accountSid,
-                        toNumber,
-                        fromNumber,
-                        messageBody,
-                        null
-                )).execute();
-
-                if (response.isSuccessful()) {
-                    TwilioResponse body = response.body();
-                    Log.d("Twilio", "✅ SMS enviado! SID: " + (body != null ? body.getSid() : "desconhecido"));
-                } else {
-                    Log.e("Twilio", "❌ Erro: " + response.errorBody().string());
-                }
-            } catch (Exception e) {
-                Log.e("Twilio", "🚨 Falha ao enviar SMS", e);
-            }
-        }).start();
-    }
 }

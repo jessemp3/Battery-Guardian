@@ -11,7 +11,6 @@
 
 ## Próximas funcionalidades
 
-- **Ciclos de carga:** Informações sobre ciclos de carga da bateria.
 - **Média de consumo:** Estatísticas sobre o consumo médio de bateria do dispositivo.
 - **Histórico de bateria:** Registro do histórico de níveis de bateria ao longo do tempo.
 

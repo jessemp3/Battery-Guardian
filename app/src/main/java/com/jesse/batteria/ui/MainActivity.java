@@ -1,15 +1,18 @@
 package com.jesse.batteria.ui;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.SeekBar;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "battery_prefs";
     private static final String KEY_BATTERY_LIMIT = "battery_limit";
     private ActivityMainBinding binding;
+    private int ultimoProgresso = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private final BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
@@ -108,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             BatteryViewModel viewModel = new ViewModelProvider(MainActivity.this).get(BatteryViewModel.class);
             viewModel.updateBatteryIntent(intent);
+            dashboard(intent);
         }
     };
 
@@ -117,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -125,8 +128,56 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    }
+
+
+    @Override
     protected void onStop() {
         super.onStop();
         unregisterReceiver(batteryReceiver);
+    }
+
+    private void dashboard(Intent serviceIntent) {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = registerReceiver(null, filter);
+        if (batteryStatus == null) return;
+
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        float batteryPct = (level * 100f) / scale;
+
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                status == BatteryManager.BATTERY_STATUS_FULL;
+
+        int voltage = batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
+        int temperature = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
+
+        binding.txtPercent.setText(String.format("%.0f%%", batteryPct));
+        binding.txtTemp.setText(String.format("Temperatura: %.1f°C", temperature / 10f));
+        binding.txtVolt.setText(String.format("Voltagem: %.2fV", voltage / 1000f));
+        binding.txtStatus.setText(isCharging ? "Status: Carregando ⚡" : "Status: Descarregando");
+
+
+        int novoProgresso = (int) batteryPct;
+
+        if (Math.abs(ultimoProgresso - novoProgresso) >= 1) {
+            animarGauge(ultimoProgresso, novoProgresso);
+        } else {
+            binding.batteryGauge.setProgress(novoProgresso);
+        }
+
+        ultimoProgresso = novoProgresso;
+
+    }
+
+    private void animarGauge(int de, int para) {
+        ObjectAnimator animator = ObjectAnimator.ofInt(binding.batteryGauge, "progress", de, para);
+        animator.setDuration(700); // animação mais fluida
+        animator.setInterpolator(new DecelerateInterpolator());
+        animator.start();
     }
 }

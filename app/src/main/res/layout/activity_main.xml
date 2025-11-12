@@ -87,24 +87,97 @@
     </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_dashboard"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutControls"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView">
+
+        <!-- Gauge circular -->
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/batteryGauge"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:rotation="-90"
+            app:indicatorColor="@color/secondBlue"
+            app:indicatorDirectionCircular="clockwise"
+            app:indicatorInset="8dp"
+            app:indicatorSize="160dp"
+            app:trackColor="#303030"
+            app:trackCornerRadius="10dp"
+            app:trackThickness="20dp" />
+
+        <!-- Porcentagem -->
+        <TextView
+            android:id="@+id/txtPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="0%"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <!-- Informações -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Status: --"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Temperatura: -- °C"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtVolt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Voltagem: -- V"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayoutControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/textViewLimitTitle"
-            android:text="Notificiar quando a bateria estiver em:"
-            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingBottom="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="Notificiar quando a bateria estiver em:"
+            android:textSize="18sp" />
 
         <SeekBar
             android:id="@+id/seekBarLimit"
@@ -116,12 +189,12 @@
 
         <TextView
             android:id="@+id/textViewLimitValue"
-            android:text="20%"
-            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="20%"
+            android:textSize="18sp" />
 
     </LinearLayout>
 

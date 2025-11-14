@@ -24,7 +24,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:padding="8dp"
-        app:cardBackgroundColor="@color/backgroundColor"
+        app:cardBackgroundColor="@color/material_dynamic_secondary70"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="A Saude da Bateria Está :"
                 android:textSize="16sp"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/imageViewBatteryHealth"
                 app:layout_constraintStart_toEndOf="@id/imageViewInfo"
@@ -69,6 +70,7 @@
                 app:layout_constraintStart_toEndOf="@id/batteryPercentage"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
+                android:tint="@color/black"
                 app:srcCompat="@drawable/battery_unknown_24px" />
 
             <TextView
@@ -77,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:text="Desconhecida"
                 android:textSize="14sp"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/imageViewBatteryHealth"
                 app:layout_constraintStart_toStartOf="@+id/imageViewBatteryHealth"
@@ -175,7 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingBottom="4dp"
-            android:text="Notificiar quando a bateria estiver em:"
+            android:text="Notificar quando a bateria estiver em:"
             android:textSize="18sp" />
 
         <SeekBar

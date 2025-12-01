@@ -1,27 +1,36 @@
 # Battery Guardian
 
-**Battery Guardian** é um aplicativo criado para resolver um problema real: o botão de power do celular da minha namorada quebrou. Quando o celular dela descarrega completamente, fica quase impossível ligar novamente. Pensando nisso, desenvolvi este app para ajudar a evitar que a bateria chegue a níveis críticos.
+Battery Guardian é um aplicativo criado para resolver um problema real: o botão de power do celular da minha namorada quebrou. Quando o celular dela descarrega completamente, fica quase impossível ligar novamente. Pensando nisso, desenvolvi este app para ajudar a evitar que a bateria chegue a níveis críticos.
 
-## O que o Battery Guardian faz?
+## O que há de novo
+Nas últimas atualizações, o Battery Guardian passou a rodar como um serviço do sistema que inicia automaticamente quando o celular liga. Isso significa que:
+- o app é executado em segundo plano desde a inicialização do aparelho;
+- para funcionar corretamente, agora é suficiente autorizar as notificações do app (permissionamento de notificações).  
+  Em outras palavras: basta permitir as notificações para que o serviço do Battery Guardian seja iniciado pelo sistema assim que o aparelho ligar.
 
-- **Monitoramento automático da bateria:** O app executa em segundo plano, monitorando constantemente o nível da bateria do dispositivo.
-- **Notificação personalizável:** Configure o limite de bateria (entre 10% e 30%) para receber notificações quando a bateria atingir esse nível, evitando que o aparelho desligue completamente e fique difícil de ligar novamente.
-- **Monitoramento da saúde da bateria:** Visualize o estado de saúde da bateria em tempo real através de ícones intuitivos que indicam se está em bom estado, superaquecida, fria ou com outros problemas.
-- **Interface visual:** O aplicativo agora possui uma interface gráfica simples e funcional que permite ajustar o limite de notificação e visualizar informações sobre a saúde da bateria.
+## Principais funcionalidades
+- Monitoramento contínuo do estado de bateria.
+- Ações automáticas configuráveis para preservar carga.
+- Notificações com informações relevantes sobre consumo e estado da bateria.
+- Serviço que inicia com o sistema (sem necessidade de abrir o app a cada reinício).
 
-## Próximas funcionalidades
+## Permissões necessárias
+- Notificações: autorize as notificações para o Battery Guardian nas configurações do Android. Isso permite que o serviço seja ativo e que o app mostre avisos e informações.  
+  (Configurações > Aplicativos > Battery Guardian > Notificações — habilite)
 
-- **Média de consumo:** Estatísticas sobre o consumo médio de bateria do dispositivo.
-- **Histórico de bateria:** Registro do histórico de níveis de bateria ao longo do tempo.
+Observação: o app foi projetado para minimizar permissões extras; caso surjam necessidades adicionais, elas serão informadas nas notas de versão.
 
-## Motivação
+## Teste na Play Store
+Quer ajudar testando novas versões? Estou recrutando testadores para o canal de testes da Play Store. Se você quer participar:
+- Entre em contato comigo pelo Email: nitchsx@gmail.com
+- Ou abra uma issue neste repositório pedindo acesso ao programa de testes.
 
-- Este projeto nasceu da necessidade de contornar um problema cotidiano, mas pode ser útil para qualquer pessoa que queira cuidar melhor da bateria de seu celular, especialmente se o botão de power estiver com defeito.
+Vou fornecer o link de teste e instruções (é rápido e gratuito).
 
 ## Contribuição
+Contribuições são bem-vindas — bugs, sugestões e pull requests. Abra uma issue para discutir mudanças maiores antes de enviar PRs.
 
-Sugestões, melhorias e contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
-**(Em breve na Google Play)**
+## Licença
+Verifique o arquivo LICENSE no repositório para detalhes sobre a licença do projeto.
 
 ---
-**Battery Guardian** – seu celular sempre pronto para uso!

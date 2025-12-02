@@ -37,10 +37,6 @@ public class BatteryService extends Service {
         Log.d("BatteryService", "Serviço iniciado");
 
         createNotificationChannel();
-        startForeground(NOTIF_ID_FOREGROUND, buildForegroundNotification());
-
-        SharedPreferences prefs = getSharedPreferences("battery_prefs", MODE_PRIVATE);
-        int userLimit = prefs.getInt("battery_limit", 20);
 
         // Cria e registra o receiver que monitora a bateria
         batteryReceiver = new BroadcastReceiver() {
@@ -54,6 +50,8 @@ public class BatteryService extends Service {
 
                 Log.d("BatteryService", "Bateria: " + level + "%, carregando: " + isCharging);
 
+                SharedPreferences prefs = getSharedPreferences("battery_prefs", MODE_PRIVATE);
+                int userLimit = prefs.getInt("battery_limit", 20);
 
                 if (level <= userLimit && !isCharging) {
                     enviarNotificacao(context, level);
@@ -67,13 +65,11 @@ public class BatteryService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (batteryReceiver != null) {
-            unregisterReceiver(batteryReceiver);
-        }
+        if (batteryReceiver != null) unregisterReceiver(batteryReceiver);
+
         Log.d("BatteryService", "Serviço finalizado");
 
-        Intent broadcastIntent = new Intent(this, RestartServiceReceiver.class);
-        sendBroadcast(broadcastIntent);
+        sendBroadcast(new Intent(this, RestartServiceReceiver.class));
     }
 
     @Nullable
@@ -85,6 +81,16 @@ public class BatteryService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("BatteryService", "onStartCommand chamado");
+
+        boolean promote = intent != null && intent.getBooleanExtra("promote_fg", false);
+
+        if (promote) {
+            Log.d("BatteryService", "Promovendo para Foreground (permitido agora)");
+
+            Notification notification = buildForegroundNotification();
+            startForeground(NOTIF_ID_FOREGROUND, notification);
+        }
+
         return START_STICKY;
     }
 

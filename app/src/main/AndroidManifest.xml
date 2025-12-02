@@ -25,10 +25,21 @@
             android:foregroundServiceType="dataSync"
               />
 
-        <receiver
-            android:name=".service.RestartServiceReceiver"
+        <receiver android:name=".service.RestartServiceReceiver"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receiver.UnlockReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
 
         <receiver
             android:name=".receiver.BootReceiver"

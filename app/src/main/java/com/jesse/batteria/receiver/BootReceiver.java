@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
 import com.jesse.batteria.service.BatteryService;
 
@@ -15,7 +14,12 @@ public class BootReceiver extends BroadcastReceiver {
 
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             Intent serviceIntent = new Intent(context, BatteryService.class);
-            context.startService(serviceIntent);
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                context.startForegroundService(serviceIntent);
+            }else{
+                context.startService(serviceIntent);
+            }
         }
     }
 }

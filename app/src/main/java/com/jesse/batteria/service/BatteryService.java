@@ -66,10 +66,6 @@ public class BatteryService extends Service {
     public void onDestroy() {
         super.onDestroy();
         if (batteryReceiver != null) unregisterReceiver(batteryReceiver);
-
-        Log.d("BatteryService", "Serviço finalizado");
-
-        sendBroadcast(new Intent(this, RestartServiceReceiver.class));
     }
 
     @Nullable
@@ -82,14 +78,8 @@ public class BatteryService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("BatteryService", "onStartCommand chamado");
 
-        boolean promote = intent != null && intent.getBooleanExtra("promote_fg", false);
-
-        if (promote) {
-            Log.d("BatteryService", "Promovendo para Foreground (permitido agora)");
-
             Notification notification = buildForegroundNotification();
             startForeground(NOTIF_ID_FOREGROUND, notification);
-        }
 
         return START_STICKY;
     }

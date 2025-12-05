@@ -26,15 +26,6 @@
             android:foregroundServiceType="specialUse"
               />
 
-        <receiver android:name=".receiver.UnlockReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
-
-
         <receiver
             android:name=".receiver.BootReceiver"
             android:enabled="true"

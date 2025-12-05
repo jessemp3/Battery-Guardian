@@ -36,6 +36,9 @@ public class BatteryService extends Service {
         super.onCreate();
         Log.d("BatteryService", "Serviço iniciado");
 
+        Notification notification = buildForegroundNotification();
+        startForeground(NOTIF_ID_FOREGROUND, notification);
+
         createNotificationChannel();
 
         // Cria e registra o receiver que monitora a bateria
@@ -77,10 +80,6 @@ public class BatteryService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("BatteryService", "onStartCommand chamado");
-
-            Notification notification = buildForegroundNotification();
-            startForeground(NOTIF_ID_FOREGROUND, notification);
-
         return START_STICKY;
     }
 

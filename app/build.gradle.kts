@@ -20,8 +20,8 @@ android {
         applicationId = "com.jesse.batteria"
         minSdk = 26
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.0.3"
+        versionCode = 5
+        versionName = "1.0.4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "TWILIO_SID", "\"${TWILIO_SID_prop}\"" )
         buildConfigField("String", "TWILIO_AUTH", "\"${TWILIO_AUTH_prop}\"" )

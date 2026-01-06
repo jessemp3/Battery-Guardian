@@ -1,6 +1,6 @@
 # Battery Guardian
 
-Battery Guardian é um aplicativo criado para resolver um problema real: o botão de power do celular da minha namorada quebrou. Quando o celular dela descarrega completamente, fica quase impossível ligar novamente. Pensando nisso, desenvolvi este app para ajudar a evitar que a bateria chegue a níveis críticos.
+Battery Guardian é um aplicativo desenvolvido para prevenir que a bateria do seu celular atinja níveis críticos. Especialmente útil para dispositivos com botão de power danificado, onde uma descarga completa pode impossibilitar religar o aparelho.
 
 ## O que há de novo
 Nas últimas atualizações, o Battery Guardian passou a rodar como um serviço do sistema que inicia automaticamente quando o celular liga. Isso significa que:
